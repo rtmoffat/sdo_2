@@ -1,0 +1,12 @@
+DB_USER='dbusername'
+#DB_HOST='defaults to localhost'
+DB_HOST='defaults to localhost'
+DB_PASS='thedatabasepassword'
+DB_DATABASE='sdo'
+DB_PORT='port number (2206)'
+USE_SQLite=1 #1 or 0 to use sqlite or not
+SSL_KEY='fullpath to your .key file'
+SSL_CERT='full path to your .cert file'
+SSL_CHAIN='full path to your chain.pem file'
+SSL_PORT=3002 #ssl port
+SALT='A RANDOM STRING OF CHARACTERS'

@@ -1,0 +1,160 @@
+
+mixin feedList(feedList)
+    #feed
+        if (feedList[0])
+            p #{feedList[0].subject}
+            ul
+                each obj in feedList
+                    li
+                        #comment
+                            table
+                                tr
+                                    td #{obj.userid}
+                                    td #{obj.text}
+                                    td #{obj.created_at}
+
+mixin thread(gameId,threadId)
+    #dayFeed
+        p the game id is #{gameId}
+        p the thread id is #{threadId}
+
+mixin login
+    label(for='username') Username
+    input#username
+    br
+    label(for='password') Password
+    input#password(type="password")
+    br
+    button(onclick='login();') Login
+
+mixin comment(player,ctext)
+    #msg
+        span.player #{player}
+        span.msgContent #{ctext}
+
+mixin addComment
+    #msgInput
+        textarea#newMessage
+        button#add-comment(onclick="sendMsg()") Send
+        button#pauseplay
+
+mixin players(players)
+    #players
+        p players
+        //p #{players}
+        ul
+            each obj in players
+                li(title="weird") #{obj.username}
+
+mixin games
+    #games
+        p games
+        ul
+            each obj in res.games
+                li #{obj.name}
+mixin feeds
+    #feeds
+        p feeds
+        ul
+            each obj in feedList
+                li #{obj.subject} #{obj.feed_type}
+
+mixin comments(feedid)
+    #commentsContainer
+        ul
+            each obj in res.comments
+                li  #{obj.text}
+
+mixin menu(menuItems)
+    #menuContainer
+        //ul#menu(onmouseleave="$('#menu').hide('blind',{direction:'left'})")
+        ul#menu
+            li 
+                div
+                    a(href='/') Home
+            li
+                div Games
+                ul
+                    - tmp=0
+                    each obj,idx in menuItems.games
+                        if tmp==idx
+                            li
+                                div
+                                    a(href="/game/"+obj.id) #{obj.name}
+                                if obj.subject
+                                    ul
+                                        //get the rest of the subjects
+                                        - tmp=idx
+                                        while menuItems.games[tmp].id==obj.id
+                                            li
+                                                div
+                                                    a(href="/game/"+obj.id+"/feed/"+menuItems.games[tmp].feedId) #{menuItems.games[tmp].subject}
+                                                    - tmp+=1
+                                            
+            li
+                div Admin
+            li
+                div Logout
+            li 
+                div
+                    a(href='/about') About
+
+mixin feed(commentList)
+    #feed
+        #comments
+            ul
+                each comment in commentList
+                    li
+                        span#username #{comment.username} 
+                        span#comment #{comment.text}
+                        span#timestamp #{comment.created_at}
+                    hr
+    #input-comment-container
+        textarea#new-comment
+        br
+        button#add-comment(onclick="addComment()") Send
+
+mixin chat(gameId,feedId)
+    #chat
+        p chat
+        button#initChat(onclick="initWebSocket()") Init Socket
+
+mixin admin
+    #admin
+        button#createGame(onClick='createGame();') Create Game
+        +newGame
+
+mixin mod
+    #mod
+        #modGames List of games you are modding
+            select
+                option(value="game1") game1
+                option(value="game2") game2
+                option(value="game2") game2
+        #gameEditor edit the game here
+            playereditor (alive, dead, add, remove, roleassign)
+            new thread creator
+                gameid
+                subject
+                body 
+            thread editor
+                end thread
+            vote counter 
+            new chat creator
+                subject
+                add/remove members
+
+mixin newGame
+    #newGame
+        label(for='newGameName') Game Name
+        input#newGameName(type="text")
+        br
+        label(for='newGameDesc') Game Description
+        input#newGameDesc(type="textbox")
+        button#createNewGame(onclick="newGame();") Submit
+mixin fbLogin
+    fb-root
+    script(async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0&appId=2717280628565797&autoLogAppEvents=1" nonce="ZnIGUKvt")
+
+mixin fbLoginButton
+    .fb-login-button(data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false")

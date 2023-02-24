@@ -1,0 +1,31 @@
+doctype html
+html
+  include header.pug
+  include mixins.pug 
+  body
+    +fbLogin
+    +fbLoginButton
+    #main
+    if (!loggedIn)
+      p please login!
+      +login
+    else
+      //span#menuButton(style="float:left;" onClick="$('#menu').show('blind',{direction:'left'})") M
+      +menu(menuItems)
+      // - Determine which mixins to load
+      if (gameId)
+        //p Loading game mixin
+      if (playerList)
+        +players(playerList)
+        p Loading Players List mixin
+      if (feedId)
+        //p Loading comments from feed
+        +feed(commentList)
+      if (admin==1 && !gameId) 
+        p welcome admn
+        +admin
+      if (mod==1)
+        p welcome mod! 
+        +mod
+    script $( "#menu" ).menu();
+      

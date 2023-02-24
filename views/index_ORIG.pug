@@ -1,0 +1,35 @@
+doctype html
+html
+  include header.pug
+  include mixins.pug 
+  body
+    #main
+    if (!loggedIn)
+      p please login!
+      +login
+    else
+      //span#menuButton(style="float:left;" onClick="$('#menu').show('blind',{direction:'left'})") M
+      +menu(menuItems)
+      // - Determine which mixins to load
+      if (gameId)
+        p #{gameId} game
+        if (playerList)
+          +players(playerList)
+          if (feedId)
+            p #{feedId} feed
+            +thread(gameId,feedId)
+            +chat(gameId,feedId)
+        if (feedList)
+          p feedlist= #{feedList}
+          +feeds(feedList)
+          //+feedList(feedList)
+      else if (admin==1 && !gameId) 
+        p welcome admn
+        +admin
+      else if (mod==1)
+        p welcome mod! 
+        +mod
+      else
+        h2(style="text-align:center;") Welcome to SDO!
+    script $( "#menu" ).menu();
+      
